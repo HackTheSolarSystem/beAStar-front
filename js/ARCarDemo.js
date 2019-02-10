@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 
 import {StyleSheet} from 'react-native';
 
+import { interval } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import {
   ViroARScene,
   ViroMaterials,
@@ -18,8 +21,10 @@ import {
   ViroQuad,
 } from 'react-viro';
 
-var createReactClass = require('create-react-class');
 
+const API_URL = "https://launchlibrary.net/1.3/launch/next/25";
+
+var createReactClass = require('create-react-class');
 
 var ARCarDemo = createReactClass({
   getInitialState() {
@@ -33,8 +38,23 @@ var ARCarDemo = createReactClass({
       tapRed: false,
       tapYellow: false,
       rotationPiv: [0,0,0],
-      orbitAnim: false
+      orbitAnim: false,
+      fetchedData: []
     }
+  },
+  componentDidMount() {
+    // REST API
+    this.subscription$ = interval(2000).pipe(
+      flatMap(() => fetch(API_URL)),
+      flatMap(response => response.json())
+    ).subscribe(value => {
+      this.setState({
+        fetchedData: value.launches
+      })
+    });
+  },
+  componentWillUnmount() {
+    this.subscription.unsubscribe();
   },
               // sphere 1
               // onClick={this._selectGrey}
