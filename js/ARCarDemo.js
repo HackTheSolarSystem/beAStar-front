@@ -81,7 +81,7 @@ var ARCarDemo = createReactClass({
               position={[0, 0.2, 0]}
               shadowCastingBitMask={0} 
               onClick={this._disappearAnimation}
-              animation={{name:"disappear", 
+              animation={{name:"tapAnimation", 
                 run:this.state.playDisappear, 
                 loop:false, delay:3000, 
                 onFinish:this._onAnimationFinished}}/>
@@ -138,9 +138,6 @@ ViroMaterials.createMaterials({
     lightingModel: "PBR",
     diffuseColor: "rgb(200,142,31)",
   },
-  // transparent_sphere: {
-  //   diffuseColor: "transparent",
-  // },
 });
 
 ViroARTrackingTargets.createTargets({
@@ -154,7 +151,7 @@ ViroARTrackingTargets.createTargets({
 ViroAnimations.registerAnimations({
     orbit:{properties:{rotateZ:"+=45"},
                   duration:1000}, //add 45 degrees to the y angle of the component every 1 second
-    disappear:{properties:{material:"red_sphere"}, duration:1000},
+    disappear:{properties:{opacity:0}, duration:300},
     scaleUp:{properties:{scaleX:1, scaleY:1, scaleZ:1,},
                   duration: 500, easing: "bounce"},
     scaleDown:{properties:{scaleX:0, scaleY:0, scaleZ:0,},
@@ -163,7 +160,7 @@ ViroAnimations.registerAnimations({
                   duration: 50, easing: "easeineaseout"},
     scaleSphereDown:{properties:{scaleX:1, scaleY:1, scaleZ:1,},
                   duration: 50, easing: "easeineaseout"},
-    tapAnimation:[["scaleSphereUp", "scaleSphereDown"],]
+    tapAnimation:[["scaleSphereUp", "scaleSphereDown", "disappear"],]
 });
 
 module.exports = ARCarDemo;
