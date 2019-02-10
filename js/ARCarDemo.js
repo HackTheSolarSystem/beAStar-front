@@ -128,7 +128,7 @@ var ARCarDemo = createReactClass({
             />
 
             <ViroSphere
-              materials={["white_sphere"]}
+              materials={["grey_sphere"]}
               heightSegmentCount={20}
               widthSegmentCount={20}
               radius={0.05}
