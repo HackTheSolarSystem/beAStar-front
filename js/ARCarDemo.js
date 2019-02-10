@@ -59,8 +59,8 @@ var ARCarDemo = createReactClass({
 
         <ViroLightingEnvironment source={require('./res/tesla/garage_1k.hdr')}/>
 
-        <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
-          <ViroNode scale={[.5, .5, .5]} rotationPivot={this.state.rotationPiv} transformBehaviors={["billboardY"]} animation={{name:"orbit", loop:true, run:this.state.animateCar}}>
+        <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} onAnchorUpdated={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
+          <ViroNode scale={[.5, .5, .5]} animation={{name:"orbit", loop:true, run:this.state.animateCar}}>
             <ViroSphere materials={["yellow_sphere"]}
               heightSegmentCount={20} widthSegmentCount={20} radius={.1}
               position={[0, 0, 0]}
@@ -68,7 +68,7 @@ var ARCarDemo = createReactClass({
 
             <ViroSphere materials={["white_sphere"]}
               heightSegmentCount={20} widthSegmentCount={20} radius={.05}
-              position={[0, 0, 0.1]}
+              position={[0, 0.2, 0]}
               // animation={{name:"orbit", run:this.state.orbitAnim, loop:true}}
               shadowCastingBitMask={0} />
           </ViroNode>
@@ -83,8 +83,13 @@ var ARCarDemo = createReactClass({
       orbitAnim: true
     })
 
-    console.log('hi')
-    console.log(anchor)
+    let distance = 0;
+    for (let i = 0; i < anchor.position.length; i++) {
+      distance += anchor.position[i] * anchor.position[i];
+    }
+    console.log('hi');
+    console.log(anchor);
+    console.log(distance);
   },
 });
 
@@ -130,7 +135,7 @@ ViroARTrackingTargets.createTargets({
 });
 
 ViroAnimations.registerAnimations({
-    orbit:{properties:{rotateY:"+=45"},
+    orbit:{properties:{rotateZ:"+=45"},
                   duration:1000}, //add 45 degrees to the y angle of the component every 1 second
     scaleUp:{properties:{scaleX:1, scaleY:1, scaleZ:1,},
                   duration: 500, easing: "bounce"},
