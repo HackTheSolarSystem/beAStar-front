@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from "react-native";
 
-import { interval } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+import { interval } from "rxjs";
+import { flatMap } from "rxjs/operators";
 
 import {
   ViroARScene,
@@ -15,13 +15,40 @@ import {
   ViroLightingEnvironment,
   ViroARImageMarker,
   ViroARTrackingTargets,
-  ViroSphere,
-} from 'react-viro';
+  ViroSphere
+} from "react-viro";
 
+const API_URL = "http://d2bc713f.ngrok.io/colors";
 
-const API_URL = "https://launchlibrary.net/1.3/launch/next/25";
+var createReactClass = require("create-react-class");
 
-var createReactClass = require('create-react-class');
+// For debugging: this is how the response data is shaped
+// const FIXTURE_DATA = [
+//   {
+//     _id: "5c603b9c5d0926281005f799",
+//     color: "blue",
+//     weight: 13923,
+//     planet: 30,
+//     distance: 10,
+//     __v: 0
+//   },
+//   {
+//     _id: "5c603ba65d0926281005f79a",
+//     color: "green",
+//     weight: 19890,
+//     planet: 5.972,
+//     distance: 1196.8,
+//     __v: 0
+//   },
+//   {
+//     _id: "5c603f02fea813050038882c",
+//     color: "red",
+//     weight: 18630.552,
+//     planet: 30,
+//     distance: 0,
+//     __v: 0
+//   }
+// ];
 
 var ARCarDemo = createReactClass({
   getInitialState() {
@@ -29,61 +56,88 @@ var ARCarDemo = createReactClass({
       texture: "white",
       playAnim: false,
       animateCar: false,
-      rotationPiv: [0,0,0],
+      rotationPiv: [0, 0, 0],
       orbitAnim: false,
       playDisappear: false,
-      fetchedData: []
-    }
+      fetchedData: [],
+      playerColor: this.props.sceneNavigator.viroAppProps.color,
+      playerData: {}
+    };
   },
   componentDidMount() {
     // REST API
-    this.subscription$ = interval(2000).pipe(
-      flatMap(() => fetch(API_URL)),
-      flatMap(response => response.json())
-    ).subscribe(value => {
-      this.setState({
-        fetchedData: value.launches
-      })
-    });
-    // Check that correct player is loaded
-    console.log(this.props.sceneNavigator.viroAppProps);
+    this.subscription$ = interval(2000)
+      .pipe(
+        flatMap(() => fetch(API_URL)),
+        flatMap(response => response.json())
+      )
+      .subscribe(players => {
+        this.setState({
+          fetchedData: players,
+          playerData: players.find(player => player.color === this.state.playerColor)
+        });
+      });
   },
   componentWillUnmount() {
     this.subscription.unsubscribe();
   },
-              // sphere 1
-              // onClick={this._selectGrey}
-              // animation={{name:"tapAnimation", run:this.state.tapGrey, onFinish:this._animateFinished}}
-              //
-              // sphere 2
-              // animation={{name:"orbit", run:true, loop:true}}
+  // sphere 1
+  // onClick={this._selectGrey}
+  // animation={{name:"tapAnimation", run:this.state.tapGrey, onFinish:this._animateFinished}}
+  //
+  // sphere 2
+  // animation={{name:"orbit", run:true, loop:true}}
 
-              // onClick={this._disappearAnimation}
-              // animation={{name:"disappear", 
-              //   run:this.state.playDisappear, 
-              //   loop:false, delay:3000, 
-              //   onFinish:this._onAnimationFinished}}
+  // <ViroSphere materials={["blue_sphere"]}
+  //   heightSegmentCount={20} widthSegmentCount={20} radius={.07}
+  //   position={[0, -0.5, 0]}
+  //   shadowCastingBitMask={0} />
+
+  // <ViroSphere materials={["red_sphere"]}
+  //   heightSegmentCount={20} widthSegmentCount={20} radius={.07}
+  //   position={[-0.5, 0, 0]}
+  //   shadowCastingBitMask={0} />
   render: function() {
     return (
       <ViroARScene>
+        <ViroLightingEnvironment
+          source={require("./res/tesla/garage_1k.hdr")}
+        />
 
-        <ViroLightingEnvironment source={require('./res/tesla/garage_1k.hdr')}/>
-
-        <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} onAnchorUpdated={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
-          <ViroNode scale={[.5, .5, .5]} animation={{name:"orbit", loop:true, run:this.state.animateCar}}>
-            <ViroSphere materials={["yellow_sphere"]}
-              heightSegmentCount={20} widthSegmentCount={20} radius={.1}
+        <ViroARImageMarker
+          target={"logo"}
+          onAnchorFound={this._onAnchorFound}
+          onAnchorUpdated={this._onAnchorFound}
+          pauseUpdates={this.state.pauseUpdates}
+        >
+          <ViroNode
+            scale={[0.5, 0.5, 0.5]}
+            animation={{
+              name: "orbit",
+              loop: true,
+              run: this.state.animateCar
+            }}
+          >
+            <ViroSphere
+              materials={["yellow_sphere"]}
+              heightSegmentCount={20}
+              widthSegmentCount={20}
+              radius={0.1}
               position={[0, 0, 0]}
-              shadowCastingBitMask={0} />
+              shadowCastingBitMask={0}
+            />
 
-            <ViroSphere materials={["grey_sphere"]}
-              heightSegmentCount={20} widthSegmentCount={20} radius={.05}
+            <ViroSphere
+              materials={["grey_sphere"]}
+              heightSegmentCount={20}
+              widthSegmentCount={20}
+              radius={0.05}
               position={[0, 0.2, 0]}
-              shadowCastingBitMask={0} 
+              shadowCastingBitMask={0}
               onClick={this._disappearAnimation}
-              animation={{name:"tapAnimation", 
-                run:this.state.playDisappear, 
-                loop:false, delay:3000, 
+              animation={{name:"tapAnimation",
+                run:this.state.playDisappear,
+                loop:false, delay:3000,
                 onFinish:this._onAnimationFinished}}/>
           </ViroNode>
         </ViroARImageMarker>
@@ -95,57 +149,57 @@ var ARCarDemo = createReactClass({
       animateCar: true,
       rotationPiv: anchor.position,
       orbitAnim: true
-    })
+    });
 
     let distance = 0;
     for (let i = 0; i < anchor.position.length; i++) {
       distance += anchor.position[i] * anchor.position[i];
     }
-    console.log('hi');
+    console.log("hi");
     console.log(anchor);
     console.log(distance);
 
     fetch('http://d2bc713f.ngrok.io/red?distance='+distance, {method: 'PUT'});
   },
- _disappearAnimation() {
-    this.setState({
-     playDisappear: true
-    })
-  },
-  _onAnimationFinished(){
-     console.log("Animation has finished!");
-  },
+  _disappearAnimation() {
+      this.setState({
+      playDisappear: true
+      })
+    },
+    _onAnimationFinished(){
+      console.log("Animation has finished!");
+    },
 });
 
 ViroMaterials.createMaterials({
   white_sphere: {
     lightingModel: "PBR",
-    diffuseColor: "rgb(231,231,231)",
+    diffuseColor: "rgb(231,231,231)"
   },
   blue_sphere: {
     lightingModel: "PBR",
-    diffuseColor: "rgb(19,42,143)",
+    diffuseColor: "rgb(19,42,143)"
   },
   grey_sphere: {
     lightingModel: "PBR",
-    diffuseColor: "rgb(75,76,79)",
+    diffuseColor: "rgb(75,76,79)"
   },
   red_sphere: {
     lightingModel: "PBR",
-    diffuseColor: "rgb(168,0,0)",
+    diffuseColor: "rgb(168,0,0)"
   },
   yellow_sphere: {
     lightingModel: "PBR",
-    diffuseColor: "rgb(200,142,31)",
-  },
+    diffuseColor: "rgb(200,142,31)"
+  }
 });
 
 ViroARTrackingTargets.createTargets({
-  "logo" : {
-    source : require('./res/logo.png'),
-    orientation : "Up",
-    physicalWidth : 0.150 // real world width in meters
-  },
+  logo: {
+    source: require("./res/logo.png"),
+    orientation: "Up",
+    physicalWidth: 0.15 // real world width in meters
+  }
 });
 
 ViroAnimations.registerAnimations({
