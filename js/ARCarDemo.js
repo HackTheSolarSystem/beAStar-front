@@ -31,6 +31,7 @@ var ARCarDemo = createReactClass({
       animateCar: false,
       rotationPiv: [0,0,0],
       orbitAnim: false,
+      playDisappear: false,
       fetchedData: []
     }
   },
@@ -57,16 +58,11 @@ var ARCarDemo = createReactClass({
               // sphere 2
               // animation={{name:"orbit", run:true, loop:true}}
 
-
-            // <ViroSphere materials={["blue_sphere"]}
-            //   heightSegmentCount={20} widthSegmentCount={20} radius={.07}
-            //   position={[0, -0.5, 0]}
-            //   shadowCastingBitMask={0} />
-
-            // <ViroSphere materials={["red_sphere"]}
-            //   heightSegmentCount={20} widthSegmentCount={20} radius={.07}
-            //   position={[-0.5, 0, 0]}
-            //   shadowCastingBitMask={0} />
+              // onClick={this._disappearAnimation}
+              // animation={{name:"disappear", 
+              //   run:this.state.playDisappear, 
+              //   loop:false, delay:3000, 
+              //   onFinish:this._onAnimationFinished}}
   render: function() {
     return (
       <ViroARScene>
@@ -83,8 +79,12 @@ var ARCarDemo = createReactClass({
             <ViroSphere materials={["white_sphere"]}
               heightSegmentCount={20} widthSegmentCount={20} radius={.05}
               position={[0, 0.2, 0]}
-              // animation={{name:"orbit", run:this.state.orbitAnim, loop:true}}
-              shadowCastingBitMask={0} />
+              shadowCastingBitMask={0} 
+              onClick={this._disappearAnimation}
+              animation={{name:"disappear", 
+                run:this.state.playDisappear, 
+                loop:false, delay:3000, 
+                onFinish:this._onAnimationFinished}}/>
           </ViroNode>
         </ViroARImageMarker>
       </ViroARScene>
@@ -106,6 +106,14 @@ var ARCarDemo = createReactClass({
     console.log(distance);
 
     fetch('http://d2bc713f.ngrok.io/red?distance='+distance, {method: 'PUT'});
+  },
+ _disappearAnimation() {
+    this.setState({
+     playDisappear: true
+    })
+  },
+  _onAnimationFinished(){
+     console.log("Animation has finished!");
   },
 });
 
@@ -130,6 +138,9 @@ ViroMaterials.createMaterials({
     lightingModel: "PBR",
     diffuseColor: "rgb(200,142,31)",
   },
+  // transparent_sphere: {
+  //   diffuseColor: "transparent",
+  // },
 });
 
 ViroARTrackingTargets.createTargets({
@@ -143,6 +154,7 @@ ViroARTrackingTargets.createTargets({
 ViroAnimations.registerAnimations({
     orbit:{properties:{rotateZ:"+=45"},
                   duration:1000}, //add 45 degrees to the y angle of the component every 1 second
+    disappear:{properties:{material:"red_sphere"}, duration:1000},
     scaleUp:{properties:{scaleX:1, scaleY:1, scaleZ:1,},
                   duration: 500, easing: "bounce"},
     scaleDown:{properties:{scaleX:0, scaleY:0, scaleZ:0,},
