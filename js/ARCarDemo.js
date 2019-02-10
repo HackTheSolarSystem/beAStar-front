@@ -44,6 +44,8 @@ var ARCarDemo = createReactClass({
         fetchedData: value.launches
       })
     });
+    // Check that correct player is loaded
+    console.log(this.props.sceneNavigator.viroAppProps);
   },
   componentWillUnmount() {
     this.subscription.unsubscribe();
