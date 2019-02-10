@@ -1,6 +1,5 @@
-"use strict";
 
-import React, { Component } from "react";
+import React from "react";
 
 import { StyleSheet } from "react-native";
 
@@ -15,7 +14,8 @@ import {
   ViroLightingEnvironment,
   ViroARImageMarker,
   ViroARTrackingTargets,
-  ViroSphere
+  ViroSphere,
+  ViroText
 } from "react-viro";
 
 const API_URL = "http://d2bc713f.ngrok.io/colors";
@@ -61,7 +61,9 @@ var ARCarDemo = createReactClass({
       playDisappear: false,
       fetchedData: [],
       playerColor: this.props.sceneNavigator.viroAppProps.color,
-      playerData: {}
+      playerData: {
+        weight: 'getting score'
+      }
     };
   },
   componentDidMount() {
@@ -103,6 +105,13 @@ var ARCarDemo = createReactClass({
         <ViroLightingEnvironment
           source={require("./res/tesla/garage_1k.hdr")}
         />
+        <ViroText
+          text={`${this.state.playerData.weight}`}
+          width={4}
+          height={2}
+          position={[0, 0, -2]}
+          style={styles.helloWorldTextStyle}
+        />
 
         <ViroARImageMarker
           target={"logo"}
@@ -135,10 +144,14 @@ var ARCarDemo = createReactClass({
               position={[0, 0.2, 0]}
               shadowCastingBitMask={0}
               onClick={this._disappearAnimation}
-              animation={{name:"tapAnimation",
-                run:this.state.playDisappear,
-                loop:false, delay:3000,
-                onFinish:this._onAnimationFinished}}/>
+              animation={{
+                name: "tapAnimation",
+                run: this.state.playDisappear,
+                loop: false,
+                delay: 3000,
+                onFinish: this._onAnimationFinished
+              }}
+            />
           </ViroNode>
         </ViroARImageMarker>
       </ViroARScene>
@@ -215,6 +228,16 @@ ViroAnimations.registerAnimations({
     scaleSphereDown:{properties:{scaleX:1, scaleY:1, scaleZ:1,},
                   duration: 50, easing: "easeineaseout"},
     tapAnimation:[["scaleSphereUp", "scaleSphereDown", "disappear"],]
+});
+
+const styles = StyleSheet.create({
+  helloWorldTextStyle: {
+    fontFamily: "Arial",
+    fontSize: 25,
+    color: "#ffffff",
+    textAlignVertical: "center",
+    textAlign: "center"
+  }
 });
 
 module.exports = ARCarDemo;
