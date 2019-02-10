@@ -9,13 +9,10 @@ import {
   ViroMaterials,
   ViroNode,
   ViroAnimations,
-  Viro3DObject,
   ViroLightingEnvironment,
   ViroARImageMarker,
   ViroARTrackingTargets,
   ViroSphere,
-  ViroSpotLight,
-  ViroQuad,
 } from 'react-viro';
 
 var createReactClass = require('create-react-class');
@@ -27,11 +24,6 @@ var ARCarDemo = createReactClass({
       texture: "white",
       playAnim: false,
       animateCar: false,
-      tapWhite: false,
-      tapBlue: false,
-      tapGrey: false,
-      tapRed: false,
-      tapYellow: false,
       rotationPiv: [0,0,0],
       orbitAnim: false
     }
@@ -123,16 +115,6 @@ ViroARTrackingTargets.createTargets({
     source : require('./res/logo.png'),
     orientation : "Up",
     physicalWidth : 0.150 // real world width in meters
-  },
-  "poster" : {
-    source : require('./res/blackpanther.jpg'),
-    orientation : "Up",
-    physicalWidth : 0.6096 // real world width in meters
-  },
-  "lettera" : {
-    source : require('./res/letterA.png'),
-    orientation : "Up",
-    physicalWidth : 0.1 // real world width in meters
   },
 });
 
