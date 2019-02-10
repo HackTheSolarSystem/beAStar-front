@@ -60,32 +60,31 @@ var ARCarDemo = createReactClass({
         <ViroLightingEnvironment source={require('./res/tesla/garage_1k.hdr')}/>
 
         <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
-          <ViroNode scale={[0, 0, 0]} rotationPivot={this.state.rotationPiv} transformBehaviors={["billboardY"]} animation={{name:"scaleSphereUp", run:this.state.animateCar,}}>
+          <ViroNode scale={[.5, .5, .5]} rotationPivot={this.state.rotationPiv} transformBehaviors={["billboardY"]} animation={{name:"orbit", loop:true, run:this.state.animateCar}}>
             <ViroSphere materials={["yellow_sphere"]}
               heightSegmentCount={20} widthSegmentCount={20} radius={.1}
               position={[0, 0, 0]}
               shadowCastingBitMask={0} />
 
             <ViroSphere materials={["white_sphere"]}
-              heightSegmentCount={20} widthSegmentCount={20} radius={.07}
-              position={[0, 0, -0.5]}
-              animation={{name:"orbit", run:this.state.orbitAnim, loop:true}}
+              heightSegmentCount={20} widthSegmentCount={20} radius={.05}
+              position={[0, 0, 0.1]}
+              // animation={{name:"orbit", run:this.state.orbitAnim, loop:true}}
               shadowCastingBitMask={0} />
           </ViroNode>
         </ViroARImageMarker>
       </ViroARScene>
     );
   },
-
-  _onAnchorFound(anchorMap) {
+  _onAnchorFound(anchor) {
     this.setState({
       animateCar: true,
-      rotationPiv: anchorMap.position,
+      rotationPiv: anchor.position,
       orbitAnim: true
-    });
-    console.log('x:' + anchorMap.position[0]);
-    console.log('y:' + anchorMap.position[1]);
-    console.log('z:' + anchorMap.position[2]);
+    })
+
+    console.log('hi')
+    console.log(anchor)
   },
 });
 
