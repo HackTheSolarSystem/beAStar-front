@@ -20,8 +20,8 @@ var defaultNavigatorType = UNSET;
 
 const COLORS = {
   // enum of marker identifiers
-  A: "blue",
-  B: "yellow"
+  A: "yellow",
+  B: "blue" // don't use me since backend will always target this
 };
 
 export default class ViroPlayerSceneNavigator extends Component {

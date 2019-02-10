@@ -18,7 +18,8 @@ import {
   ViroText
 } from "react-viro";
 
-const API_URL = "http://d2bc713f.ngrok.io/colors";
+const BASE_URL = "http://d2bc713f.ngrok.io";
+const API_URL = `${BASE_URL}/colors`;
 
 var createReactClass = require("create-react-class");
 
@@ -171,8 +172,7 @@ var ARCarDemo = createReactClass({
     console.log("hi");
     console.log(anchor);
     console.log(distance);
-
-    fetch('http://d2bc713f.ngrok.io/red?distance='+distance, {method: 'PUT'});
+    fetch(`${BASE_URL}/${this.state.playerColor}?distance='${+distance}`, {method: 'PUT'});
   },
   _disappearAnimation() {
       this.setState({
