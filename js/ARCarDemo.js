@@ -79,7 +79,7 @@ var ARCarDemo = createReactClass({
       });
   },
   componentWillUnmount() {
-    this.subscription.unsubscribe();
+    this.subscription$.unsubscribe();
   },
   // sphere 1
   // onClick={this._selectGrey}

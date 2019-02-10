@@ -40,8 +40,7 @@ export default class ViroPlayerSceneNavigator extends Component {
     );
     this._exitViro = this._exitViro.bind(this);
   }
-  // Replace this function with the contents of _getVRNavigator() or _getARNavigator()
-  // if you are building a specific type of experience.
+
   render() {
     if (this.state.navigatorType == UNSET) {
       return this._getExperienceSelector();
@@ -50,13 +49,11 @@ export default class ViroPlayerSceneNavigator extends Component {
     }
   }
 
-  // Presents the user with a choice of an AR or VR experience
   _getExperienceSelector() {
     return (
       <View style={localStyles.outer}>
         <View style={localStyles.inner}>
           <Text style={localStyles.titleText}>Pick your star color!</Text>
-
           <TouchableHighlight
             style={localStyles.buttons}
             onPress={this._getExperienceButtonOnPress(
