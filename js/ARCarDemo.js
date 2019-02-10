@@ -90,6 +90,8 @@ var ARCarDemo = createReactClass({
     console.log('hi');
     console.log(anchor);
     console.log(distance);
+
+    fetch('http://d2bc713f.ngrok.io/red?distance='+distance, {method: 'PUT'});
   },
 });
 
