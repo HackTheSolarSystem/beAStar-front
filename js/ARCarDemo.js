@@ -76,7 +76,7 @@ var ARCarDemo = createReactClass({
               position={[0, 0, 0]}
               shadowCastingBitMask={0} />
 
-            <ViroSphere materials={["white_sphere"]}
+            <ViroSphere materials={["grey_sphere"]}
               heightSegmentCount={20} widthSegmentCount={20} radius={.05}
               position={[0, 0.2, 0]}
               shadowCastingBitMask={0} 
