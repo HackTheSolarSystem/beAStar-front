@@ -50,3 +50,5 @@ export const VIRO_API_KEY = "MY_SECRET";
 
 6. To view the app, you'll need to use the ViroMedia app, available in both Android and Apple app stores. Documentation about how to navigate that process is [here](https://docs.viromedia.com/v1.0.0/docs/develop-with-viro).
 
+7. Currently, the server running our `node.js` backend is hardcoded as the variable `BASE_URL` inside `js/ARCarDemo.js`. Replace that variable with your current server address for the application to operate as expected.
+
