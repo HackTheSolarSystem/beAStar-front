@@ -6,7 +6,7 @@
 - Vivien Ngo / [vivngo](https://github.com/vivngo)
 - Peggy Li / [peggyxli](https://github.com/peggyxli)
 - Anna Leonenko / [meinou](https://github.com/meinou)
-- Cameron Yick / [hydrosquall](www.github.com/hydrosquall)
+- Cameron Yick / [hydrosquall](https://www.github.com/hydrosquall)
 
 ### Solution Description
 
