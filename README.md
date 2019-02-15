@@ -3,10 +3,10 @@
 ### Addressing the  [Mixed Reality Solar System Challenge](https://github.com/amnh/HackTheSolarSystem/wiki/A-Mixed-Reality-Solar-System)
 
 ### Created by the All-Stars
-- Vivien Ngo / [@vivngo](@vivngo)
-- Peggy Li / [@peggyxli](@peggyxli)
-- Anna Leonenko / [@meinou](@meinou)
-- Cameron Yick / [@hydrosquall](www.github.com/@hydrosquall)
+- Vivien Ngo / [vivngo](https://github.com/vivngo)
+- Peggy Li / [peggyxli](https://github.com/peggyxli)
+- Anna Leonenko / [meinou](https://github.com/meinou)
+- Cameron Yick / [hydrosquall](www.github.com/hydrosquall)
 
 ### Solution Description
 
